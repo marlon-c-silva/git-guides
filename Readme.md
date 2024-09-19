@@ -417,3 +417,110 @@ Reaplica seus commits em uma nova base, ajudando a manter o histórico linear.
 ```bash
 git rebase nome-da-branch
 ```
+# Convenção de Commits
+
+A **convenção de commits** é uma maneira padronizada de escrever mensagens de commit para garantir que elas sejam claras, concisas e consistentes. Um dos padrões mais usados é o **Conventional Commits**, que segue um formato específico para facilitar a leitura e o entendimento do histórico de mudanças, além de permitir a geração automática de changelogs e versionamento semântico.
+
+### Padrão do Conventional Commits
+
+O formato básico de um commit seguindo o padrão **Conventional Commits** é o seguinte:
+
+```
+<tipo>[escopo opcional]: <descrição>
+
+[corpo opcional]
+[rodapé opcional]
+```
+
+#### 1. **Tipos de commits:**
+- **feat**: Adição de um novo recurso ou funcionalidade.
+- **fix**: Correção de bugs ou problemas.
+- **docs**: Alterações na documentação (README, comentários, etc).
+- **style**: Alterações de estilo que não afetam o comportamento do código (espaços, vírgulas, formatação).
+- **refactor**: Mudanças no código que não corrigem um bug ou adicionam uma nova funcionalidade.
+- **test**: Adição ou alteração de testes.
+- **chore**: Tarefas de manutenção que não afetam a lógica do código (atualização de pacotes, configurações de build).
+- **perf**: Alterações que melhoram o desempenho.
+- **build**: Mudanças que afetam o sistema de build ou dependências externas.
+- **ci**: Alterações nos arquivos de integração contínua (CI) e scripts.
+
+#### 2. **Escopo (opcional)**:
+O escopo é opcional e indica a parte específica do projeto que foi alterada. Ele é útil para ajudar a identificar rapidamente onde a mudança foi feita (ex: `api`, `ui`, `database`).
+
+#### 3. **Descrição**:
+A descrição é uma linha curta e clara que resume a mudança. Ela deve ser escrita no estilo de frase e na voz ativa, sem ponto final.
+
+#### 4. **Corpo (opcional)**:
+O corpo da mensagem pode ser usado para descrever mais detalhadamente as mudanças feitas, especialmente quando se trata de commits maiores.
+
+#### 5. **Rodapé (opcional)**:
+O rodapé pode ser usado para fazer referência a questões relacionadas (ex.: bugs resolvidos ou tarefas de um board) ou para informar sobre mudanças breaking (quebra de compatibilidade).
+
+### Exemplos de commits usando Conventional Commits
+
+#### 1. **Adição de funcionalidade (feat)**:
+```bash
+feat(api): adicionar endpoint de autenticação
+```
+
+#### 2. **Correção de bug (fix)**:
+```bash
+fix(ui): corrigir alinhamento do botão de envio no formulário
+```
+
+#### 3. **Melhoria de performance (perf)**:
+```bash
+perf(consulta): otimizar consulta de usuários no banco de dados
+```
+
+#### 4. **Atualização de documentação (docs)**:
+```bash
+docs(readme): atualizar instruções de instalação
+```
+
+#### 5. **Refatoração de código (refactor)**:
+```bash
+refactor(auth): simplificar lógica de verificação de tokens
+```
+
+#### 6. **Adição de testes (test)**:
+```bash
+test(service): adicionar testes para o serviço de usuários
+```
+
+#### 7. **Tarefa de manutenção (chore)**:
+```bash
+chore(deps): atualizar dependências para versões mais recentes
+```
+
+#### 8. **Commit com corpo (exemplo com corpo da mensagem)**:
+```bash
+feat(ui): implementar modal de confirmação de exclusão
+
+Adicionar uma confirmação antes de excluir um item. Isso evita exclusões acidentais e melhora a experiência do usuário.
+```
+
+#### 9. **Commit com rodapé para fechar uma issue**:
+```bash
+fix(login): corrigir erro ao tentar logar sem senha
+
+Corrige o erro que permitia que a aplicação quebrasse quando o usuário tentava logar sem informar a senha.
+
+Closes #123
+```
+
+#### 10. **Commit que introduz uma quebra de compatibilidade (BREAKING CHANGE)**:
+```bash
+feat(api): remover o suporte ao método legacy de autenticação
+
+BREAKING CHANGE: o método de autenticação antiga foi removido. Agora é necessário usar o OAuth2 para autenticação.
+```
+
+### Vantagens do uso do Conventional Commits:
+1. **Consistência**: Manter o mesmo formato ajuda a equipe a entender melhor o histórico de commits.
+2. **Automatização**: Facilita a geração automática de changelogs e versionamento semântico.
+3. **Clareza**: Fica mais fácil identificar o tipo de mudança (correção, nova feature, etc.) apenas lendo a mensagem de commit.
+
+Essa convenção torna o desenvolvimento mais organizado e facilita a manutenção do projeto a longo prazo.
+
+![Descrição da Imagem](commit-convention.png)
