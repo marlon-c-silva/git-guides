@@ -19,6 +19,7 @@
   - [git stash](#git-stash)
   - [git remote](#git-remote)
   - [git rebase](#git-rebase)
+  - [git gc](#git-gc)
 ---
 
 ## O que é Git?
@@ -417,6 +418,102 @@ Reaplica seus commits em uma nova base, ajudando a manter o histórico linear.
 ```bash
 git rebase nome-da-branch
 ```
+
+### git gc
+
+O comando `git gc` (abreviação de **garbage collection**) é usado para otimizar o repositório Git, limpando arquivos desnecessários e organizando o armazenamento de dados. Ele realiza a coleta de lixo do repositório, eliminando objetos que não são mais referenciados, compactando dados e, em geral, melhorando o desempenho do Git.
+
+### Como o `git gc` funciona?
+
+Quando você usa o Git, várias operações (como commits, branches, merges, etc.) geram dados internos, que são armazenados como objetos no diretório `.git`. Com o tempo, esses objetos podem se acumular, resultando em arquivos não referenciados, objetos duplicados ou fragmentados, e até objetos de backup antigos que já não são necessários.
+
+O comando `git gc` é responsável por:
+
+- **Compactação de objetos**: Ele compacta os objetos dispersos em pacotes maiores para reduzir o tamanho do repositório.
+- **Remoção de objetos não referenciados**: Ele exclui objetos que não são mais referenciados por nenhum commit ou branch.
+- **Limpeza de logs de referência (reflog)**: Remove entradas antigas do reflog que não são mais necessárias.
+- **Reorganização do armazenamento**: Torna a estrutura de armazenamento do Git mais eficiente, melhorando o desempenho.
+
+### Comandos básicos do `git gc`
+
+#### **Rodar `git gc` com configurações padrão**
+
+O comando mais simples é apenas rodar o `git gc` com as configurações padrão:
+
+```bash
+git gc
+```
+
+Isso fará a coleta de lixo e otimização sem opções adicionais, usando as configurações padrão do Git.
+
+#### **Forçar o `git gc`**
+
+Às vezes, o Git pode decidir que não é necessário rodar o `git gc` no momento, com base nas condições do repositório. Se você quiser forçar a execução da coleta de lixo, use a flag `--force`:
+
+```bash
+git gc --force
+```
+
+Isso forçará a execução da coleta de lixo, mesmo que o Git ache que não é necessário.
+
+#### **Executar o `git gc` de maneira agressiva**
+
+O `git gc` tem uma opção para rodar de maneira mais agressiva, compactando ainda mais os objetos e eliminando mais resíduos. O comando `--aggressive` é útil quando você deseja maximizar a otimização, embora possa demorar mais para ser concluído.
+
+```bash
+git gc --aggressive
+```
+
+Essa opção faz com que o Git gaste mais tempo compactando e reorganizando os objetos para um repositório menor e mais eficiente.
+
+### Exemplo de uso prático
+
+Imagine que seu repositório cresceu muito rapidamente ao longo de meses de desenvolvimento. Ele pode conter muitos objetos dispersos, arquivos que não são mais necessários, e até branches e tags deletadas que ainda deixam rastros no repositório. Executar `git gc` pode liberar espaço e melhorar a velocidade do Git, especialmente em grandes repositórios.
+
+- **Verificar o tamanho do repositório antes do `git gc`**:
+   Você pode usar o comando a seguir para ver o tamanho do seu repositório:
+   ```bash
+   git count-objects -vH
+   ```
+
+   Isso exibirá o tamanho dos objetos de dados e a quantidade de objetos soltos.
+
+- **Rodar o `git gc`**:
+   ```bash
+   git gc --aggressive
+   ```
+
+- **Verificar o tamanho após a otimização**:
+   Após o comando `git gc`, você pode rodar novamente o comando `git count-objects -vH` para ver a redução no tamanho do repositório.
+
+### Outras opções úteis de `git gc`
+
+- **`git gc --prune=<data>`**: Remove objetos que ficaram sem referência antes de uma data específica. O padrão é `2 semanas`, mas você pode especificar uma data ou número de dias.
+  
+  Exemplo para remover objetos que ficaram sem referência há mais de 30 dias:
+  ```bash
+  git gc --prune=30.days.ago
+  ```
+
+- **`git gc --auto`**: O Git executa a coleta de lixo automaticamente com base em certas condições (como o número de commits ou tamanho de objetos). Usar `git gc --auto` força essa verificação, mas não executa a coleta de lixo se o repositório estiver em boas condições.
+
+  ```bash
+  git gc --auto
+  ```
+
+### Quando usar o `git gc`?
+
+- **Após um grande número de operações**: Se você fez muitas operações como criação de branches, merges e rebase, o `git gc` pode ajudar a manter o repositório em boas condições.
+- **Quando o repositório está grande demais**: Se o seu repositório está consumindo muito espaço, `git gc --aggressive` pode compactar e liberar espaço.
+- **Antes de fazer backup**: É uma boa prática rodar `git gc` antes de fazer um backup do repositório, pois ele irá compactar e otimizar os dados.
+
+### Cuidados ao usar `git gc`
+
+- **Demora**: Em repositórios grandes, especialmente com a opção `--aggressive`, a execução do `git gc` pode demorar muito tempo.
+- **Objetos não referenciados**: O `git gc` pode remover objetos que não estão mais referenciados por commits ou branches. Se você está em um cenário em que pode querer restaurar objetos "perdidos" (como um commit que foi revertido), tenha cuidado com a execução da coleta de lixo.
+
+---
+
 # Convenção de Commits
 
 A **convenção de commits** é uma maneira padronizada de escrever mensagens de commit para garantir que elas sejam claras, concisas e consistentes. Um dos padrões mais usados é o **Conventional Commits**, que segue um formato específico para facilitar a leitura e o entendimento do histórico de mudanças, além de permitir a geração automática de changelogs e versionamento semântico.
