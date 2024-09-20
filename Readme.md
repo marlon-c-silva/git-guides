@@ -20,6 +20,7 @@
   - [git remote](#git-remote)
   - [git rebase](#git-rebase)
   - [git gc](#git-gc)
+- [Convenção de Commits](#convenção-de-commits)
 ---
 
 ## O que é Git?
